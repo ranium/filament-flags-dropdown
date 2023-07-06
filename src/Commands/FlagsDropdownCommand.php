@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Ranium\FlagsDropdown\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FlagsDropdownCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'filament-flags-dropdown';
 
     public $description = 'My command';
 
