@@ -4,6 +4,7 @@ namespace Ranium\FlagsDropdown;
 
 use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+
 class FlagsDropdownServiceProvider extends PluginServiceProvider
 {
     public function configurePackage(Package $package): void

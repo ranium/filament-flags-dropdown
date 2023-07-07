@@ -1,8 +1,8 @@
 <?php
+
 namespace Ranium\FlagsDropdown\Forms\Components\Fields;
 
 use Filament\Forms\Components\Concerns\HasOptions;
-use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Select;
 
 class FlagsDropdown extends Select
