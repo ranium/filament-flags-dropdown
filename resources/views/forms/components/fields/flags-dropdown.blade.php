@@ -99,7 +99,7 @@
                 style="display: none;"
                 {{
                     $attributes->merge()->class([
-                        'absolute left-0 mt-1 w-full rounded-md bg-white shadow-md',
+                        'absolute left-0 mt-1 w-full rounded-md bg-white shadow-md overflow-hidden',
                         'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 dark:border-gray-600' => config('forms.dark_mode'),
                     ])
                 }}
@@ -110,7 +110,7 @@
                         x-on:click.prevent="state = '{{ $value }}'; close($refs.button)"
                         {{
                             $attributes->merge()->class([
-                                'flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-1 text-left text-md hover:bg-gray-50 disabled:text-gray-500',
+                                'flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-1 text-left text-md hover:bg-primary-500 disabled:text-gray-500',
                                 'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 dark:border-gray-600' => config('forms.dark_mode'),
                             ])
                         }}
