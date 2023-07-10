@@ -106,7 +106,7 @@
                 style="display: none;"
                 {{
                     $attributes->merge()->class([
-                        'absolute left-0 mt-1 w-full rounded-md bg-white p-1 shadow-md overflow-hidden',
+                        'absolute left-0 mt-1 w-full rounded-md z-10 bg-white p-1 shadow-md overflow-hidden',
                         'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 dark:border-gray-600' => config('forms.dark_mode'),
                     ])
                 }}
