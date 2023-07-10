@@ -28,6 +28,7 @@
         <div
             x-data="{
                 state: $wire.entangle('{{ $getStatePath() }}').defer,
+                isPlaceholderSelectionDisabled: @js($isPlaceholderSelectionDisabled()),
                 options: @js($getNormalizedOptions()),
                 open: false,
                 toggle() {
@@ -45,11 +46,17 @@
                     this.open = false
 
                     focusAfter && focusAfter.focus()
+                },
+                init() {
+                    if (this.isPlaceholderSelectionDisabled && ! this.state) {
+                        this.state = Object.keys(this.options)[0] ?? ''
+                    }
                 }
             }"
+            x-init="init()"
             x-on:keydown.escape.prevent.stop="close($refs.button)"
             x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-            x-id="['dropdown-button']"
+            x-id="['flags-dropdown-button']"
             class="relative min-w-0 flex-1"
         >
             <!-- Button -->
@@ -60,18 +67,18 @@
                 x-ref="button"
                 x-on:click="toggle()"
                 :aria-expanded="open"
-                :aria-controls="$id('dropdown-button')"
+                :aria-controls="$id('flags-dropdown-button')"
                 type="button"
                 {{
-                        $attributes->merge($getExtraInputAttributes())->class([
-                            'flex items-center gap-x-2.5 filament-forms-input w-full rounded-lg text-gray-900 shadow-sm outline-none transition duration-75 border focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70 px-2 py-2 bg-white',
-                            'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500' => config('forms.dark_mode'),
-                            'border-gray-300' => ! $errors->has($getStatePath()),
-                            'dark:border-gray-600' => (! $errors->has($getStatePath())) && config('forms.dark_mode'),
-                            'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
-                            'dark:border-danger-400 dark:ring-danger-400' => $errors->has($getStatePath()) && config('forms.dark_mode'),
-                        ])
-                    }}
+                    $attributes->merge($getExtraInputAttributes())->class([
+                        'flex items-center gap-x-2.5 filament-forms-input w-full rounded-lg text-gray-900 shadow-sm outline-none transition duration-75 border focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70 px-2 py-2 bg-white',
+                        'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500' => config('forms.dark_mode'),
+                        'border-gray-300' => ! $errors->has($getStatePath()),
+                        'dark:border-gray-600' => (! $errors->has($getStatePath())) && config('forms.dark_mode'),
+                        'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
+                        'dark:border-danger-400 dark:ring-danger-400' => $errors->has($getStatePath()) && config('forms.dark_mode'),
+                    ])
+                }}
             >
                 <template x-if="state">
                     <div class="w-full text-left">
@@ -80,7 +87,7 @@
                 </template>
 
                 <template x-if="!state">
-                    <span class="px-2 w-full text-left">Select an option</span>
+                    <span class="px-2 w-full text-left">{{ $getPlaceholder() }}</span>
                 </template>
 
                 <!-- Heroicon: chevron-down -->
@@ -95,27 +102,40 @@
                 x-show="open"
                 x-transition.origin.top.left
                 x-on:click.outside="close($refs.button)"
-                :id="$id('dropdown-button')"
+                :id="$id('flags-dropdown-button')"
                 style="display: none;"
                 {{
                     $attributes->merge()->class([
-                        'absolute left-0 mt-1 w-full rounded-md bg-white shadow-md overflow-hidden',
+                        'absolute left-0 mt-1 w-full rounded-md bg-white p-1 shadow-md overflow-hidden',
                         'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 dark:border-gray-600' => config('forms.dark_mode'),
                     ])
                 }}
             >
+                @php
+                    $itemAttributes = $attributes->merge()->class([
+                        'flex items-center group w-full whitespace-nowrap rounded-md p-2 text-left text-sm hover:text-white hover:bg-primary-500 disabled:text-gray-500',
+                        'dark:text-white dark:focus:border-primary-500 dark:border-gray-600' => config('forms.dark_mode'),
+                    ])
+                @endphp
+
+                @unless ($isPlaceholderSelectionDisabled())
+                    <a
+                        href="#"
+                        x-show="state"
+                        x-on:click.prevent="state = ''; close($refs.button)"
+                        {{ $itemAttributes }}
+                    >
+                        {{ $getPlaceholder() }}
+                    </a>
+                @endif
+
                 @foreach($getNormalizedOptions() as $value => $option)
                     <a
                         href="#"
                         x-on:click.prevent="state = '{{ $value }}'; close($refs.button)"
-                        {{
-                            $attributes->merge()->class([
-                                'flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-1 text-left text-md hover:bg-primary-500 disabled:text-gray-500',
-                                'dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 dark:border-gray-600' => config('forms.dark_mode'),
-                            ])
-                        }}
+                        {{ $itemAttributes }}
                     >
-                        <span class="px-2 fi fi-{{ $option['flag'] }}"></span> {{ $option['label'] }}
+                        <span class="mr-2 h-5 w-5 rtl:ml-2 rtl:mr-0 fi fi-{{ $option['flag'] }}"></span> {{ $option['label'] }}
                     </a>
                 @endforeach
             </div>

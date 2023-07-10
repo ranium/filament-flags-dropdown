@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/ranium/filament-flags-dropdown/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/ranium/filament-flags-dropdown/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/ranium/filament-flags-dropdown.svg?style=flat-square)](https://packagist.org/packages/ranium/filament-flags-dropdown)
 
-A dropdown field with flags and custom labels. The field can be use as a country or language selector in [Filament forms](https://filamentphp.com/docs/2.x/forms/installation).
+A dropdown field with flags and custom labels. The field can be used as a country or language selector in [Filament forms](https://filamentphp.com/docs/2.x/forms/installation).
 
 This package utilizes [flag-icons](https://github.com/lipis/flag-icons) to display the country flags.
 
@@ -35,8 +35,8 @@ use Ranium\FlagsDropdown\Forms\Components\Fields\FlagsDropdown;
 public static function form(Form $form): Form
 {
     $countries = [
-        'in' => ['IND' => 'India'],
-        'us' => ['USA' => 'United States'],    
+        'in' => ['value' => 'IND', 'label' => 'India'],
+        'us' => ['value' => 'USA', 'label' => 'United States'],
     ];
     
     return $form
@@ -53,21 +53,13 @@ If you want the dropdown to have the same `value` as the `label` then your optio
 
 ```php
 $countries = [
-    'in' => ['India'],
-    'us' => ['United States']
+    'in' => 'India',
+    'us' => 'United States'
 ];
 ```
 
 In this case the field's value will be "India" when that option is chosen.
 
-Lastly, if you want the [ISO 3166-1-alpha-2 code](https://www.iso.org/obp/ui/#search/code/) itself to be used as the value of the option then your options array can be built like this:
-
-```php
-$countries = [
-    'in' => 'India',
-    'us' => 'United States'
-]; 
-```
 ## Testing
 
 ```bash

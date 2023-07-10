@@ -16,6 +16,7 @@ class FlagsDropdown extends Select
         parent::setUp();
 
         $this->extraAttributes(config('filament-flags-dropdown.extra_attributes'));
+        $this->extraInputAttributes(config('filament-flags-dropdown.extra_input_attributes'));
     }
 
     public function getNormalizedOptions(): array
