@@ -60,6 +60,40 @@ $countries = [
 
 In this case the field's value will be "India" when that option is chosen.
 
+### Events
+
+The field fires an event whenever its value is changed. You can listen to the event and bind it to a callable. The new and old values are passed as arguments to the callable.
+
+```php
+use Filament\Pages\Page;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Ranium\FlagsDropdown\Forms\Components\Fields\FlagsDropdown;
+
+class Settings extends Page
+{
+    use InteractsWithForms;
+    
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
+    protected static string $view = 'filament.pages.settings';
+    
+    protected function getFormSchema(): array
+    {
+        return [
+            FlagsDropdown::make('language')                
+                ->options(['in' => 'Hindi', 'gb' => 'English'])
+                ->onChange($this->doSomething(...)),
+        ];
+    }
+    
+    public function doSomething(string $newValue, string $oldValue)
+    {
+        // This method will be called whenever the value of the
+        // dropdown changes in the frontend
+    }
+}
+```
+
 ## Testing
 
 ```bash
