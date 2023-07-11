@@ -47,7 +47,7 @@ class FlagsDropdown extends Select
 
     private function registerOnChangeListeners(): void
     {
-        $eventName = $this->getName() . '::changed';
+        $eventName = $this->getName().'::changed';
 
         $this->registerListeners([
             $eventName => [
