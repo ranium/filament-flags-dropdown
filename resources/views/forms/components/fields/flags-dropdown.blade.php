@@ -47,13 +47,17 @@
 
                     focusAfter && focusAfter.focus()
                 },
-                init() {
+                initField() {
                     if (this.isPlaceholderSelectionDisabled && ! this.state) {
                         this.state = Object.keys(this.options)[0] ?? ''
                     }
+
+                    this.$watch('state', (newValue, oldValue) => {
+                        this.$wire.dispatchFormEvent('{{ $getStatePath() }}::changed', '{{ $getStatePath() }}', newValue, oldValue)
+                    })
                 }
             }"
-            x-init="init()"
+            x-init="initField()"
             x-on:keydown.escape.prevent.stop="close($refs.button)"
             x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
             x-id="['flags-dropdown-button']"

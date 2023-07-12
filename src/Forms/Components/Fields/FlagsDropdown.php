@@ -2,6 +2,7 @@
 
 namespace Ranium\FlagsDropdown\Forms\Components\Fields;
 
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Concerns\HasOptions;
 use Filament\Forms\Components\Select;
 
@@ -10,6 +11,8 @@ class FlagsDropdown extends Select
     use HasOptions;
 
     protected string $view = 'filament-flags-dropdown::forms.components.fields.flags-dropdown';
+
+    protected ?\Closure $onChangeCallback = null;
 
     protected function setUp(): void
     {
@@ -31,5 +34,30 @@ class FlagsDropdown extends Select
         }
 
         return $normalizedOptions;
+    }
+
+    public function onChange(\Closure $callback): static
+    {
+        $this->onChangeCallback = $callback;
+
+        $this->registerOnChangeListeners();
+
+        return $this;
+    }
+
+    private function registerOnChangeListeners(): void
+    {
+        $eventName = $this->getName().'::changed';
+
+        $this->registerListeners([
+            $eventName => [
+                function (Component $component, string $statePath, ?string $newValue, ?string $oldValue): void {
+                    if (is_callable($this->onChangeCallback)) {
+                        $callable = $this->onChangeCallback;
+                        $callable($newValue, $oldValue);
+                    }
+                },
+            ],
+        ]);
     }
 }
