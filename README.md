@@ -86,7 +86,7 @@ class Settings extends Page
         ];
     }
     
-    public function doSomething(string $newValue, string $oldValue)
+    public function doSomething(?string $newValue, ?string $oldValue)
     {
         // This method will be called whenever the value of the
         // dropdown changes in the frontend

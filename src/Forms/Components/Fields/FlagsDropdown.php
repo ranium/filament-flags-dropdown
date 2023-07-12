@@ -51,7 +51,7 @@ class FlagsDropdown extends Select
 
         $this->registerListeners([
             $eventName => [
-                function (Component $component, string $statePath, string $newValue, string $oldValue): void {
+                function (Component $component, string $statePath, ?string $newValue, ?string $oldValue): void {
                     if (is_callable($this->onChangeCallback)) {
                         $callable = $this->onChangeCallback;
                         $callable($newValue, $oldValue);
